@@ -10,12 +10,13 @@ const PokerCard = () => {
 
     let pinta = pintas[parseInt(Math.random()*pintas.length)]
     let simbol = simbols[parseInt(Math.random()*simbols.length)]
+    let colorPinta = pinta == '♥' || pinta == '♦' ? 'red' : 'black'
 
     return (<div className="card m-2" style={cardStyles}>
                 <div className="card-body">
-                    <p>{pinta}</p>
+                    <p style={{ color: colorPinta  }} >{pinta}</p>
                     <h1>{simbol}</h1>
-                    <p>{pinta}</p>
+                    <p style={{ transform: "rotate(180deg)", color: colorPinta }} >{pinta}</p>
                 </div> 
             </div>
         )
