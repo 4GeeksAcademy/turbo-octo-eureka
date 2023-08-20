@@ -8,7 +8,8 @@ const Home = ({ title }) => {
 		// const newTotal = mano.reduce(sumaJack, 0);
 		// setTotal(newTotal);
 		console.log('efecto', total)
-		if (total >= 21 || totalCasa === 21) {
+		if ((total >= 21 || totalCasa === 21) && !gameOver) {
+			setGameOver(true);
 			verifyWin()
 		}
 	});
@@ -23,8 +24,21 @@ const Home = ({ title }) => {
 		} else {
 			setWin('Player Wins! 🥳');
 		}
-
+		setGameOver(true)
 	}
+
+	const playAgain = () => {
+		setGameOver(false);
+		const newMano = Array(2).fill().map(x => generateCard())
+		setMano(newMano);
+		const newManoCasa = Array(2).fill().map(x => generateCard())
+		setCasa(newManoCasa);
+		setWin('');
+		const newTotal = newMano.reduce(sumaJack, 0)
+		setTotal(newTotal);
+		const newTotalCasa = newTotalCasa.reduce(sumaJack, 0)
+		setTotalCasa(newTotalCasa);
+	};
 
 	// Seccion logica
 	const generateCard = () => {
@@ -43,6 +57,7 @@ const Home = ({ title }) => {
 	const [casa, setCasa] = useState(Array(2).fill().map(x => generateCard()))
 	const [mano, setMano] = useState(Array(2).fill().map(x => generateCard()))
 	const [win, setWin] = useState(null)
+	const [gameOver, setGameOver] = useState(false);
 
 	const sumaBlack = (simbol) => {
 		if (simbol == 'Q' || simbol == 'K' || simbol == 'J') return 10;
@@ -66,13 +81,14 @@ const Home = ({ title }) => {
 
 	// Parte Visual
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">{win}</h1>
+		<div className="text-center d-flex flex-column my-auto col-12 text-white">
+			<h1 className="my-1">{title}</h1>
+			<h1 className="text-center">{win}</h1>
 			<h1>
 				{"House hand\n"}
 				({totalCasa})
 			</h1>
-			<div className="d-flex flex-wrap p-1 my-1 justify-content-center align-items-center">
+			<div className="d-flex flex-wrap col-12 p-1 my-1 justify-content-center align-items-center">
 				{
 					casa.map((carta, key) => <PokerCard key={carta.simbol + key} pinta={carta.pinta} colorPinta={carta.colorPinta} simbol={carta.simbol} />)
 				}
@@ -81,7 +97,7 @@ const Home = ({ title }) => {
 				{"Player's hand\n"}
 				({total})
 			</h1>
-			<div className="d-flex flex-wrap p-1 my-1 justify-content-center align-items-center">
+			<div className="d-flex flex-wrap col-12 p-1 my-1 justify-content-center align-items-center">
 				{
 					mano.map((carta, key) => <PokerCard key={carta.simbol + key} pinta={carta.pinta} colorPinta={carta.colorPinta} simbol={carta.simbol} />)
 				}
@@ -94,6 +110,13 @@ const Home = ({ title }) => {
 					Ask
 				</button>
 			</div>)}
+			{gameOver && (
+				<div>
+					<button className="btn btn-primary" onClick={playAgain}>
+						Play Again
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
