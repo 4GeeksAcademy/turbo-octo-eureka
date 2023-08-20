@@ -36,7 +36,7 @@ const Home = ({ title }) => {
 		setWin('');
 		const newTotal = newMano.reduce(sumaJack, 0)
 		setTotal(newTotal);
-		const newTotalCasa = newTotalCasa.reduce(sumaJack, 0)
+		const newTotalCasa = newManoCasa.reduce(sumaJack, 0)
 		setTotalCasa(newTotalCasa);
 	};
 
